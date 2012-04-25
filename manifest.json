@@ -1,0 +1,13 @@
+{
+	"BundleType": "Application",
+	"AppName": {
+		"en": "Kitchen Sink"
+	},
+	"SupportedLanguages": [
+		"en"
+	],
+	"RequiredPermissions": [
+		"https://*",
+		"http://*"
+	]
+}
