@@ -3,20 +3,27 @@
 <head>
     <meta charset="utf-8">
     <title>Rijksmuseum App</title>
+    <link href="css/fotorama.css" rel="stylesheet">
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script src="js/fotorama.js"></script>
     <script>
         function startMusicByYearRange(startYear, endYear) {
             var query = "year:" + startYear + "-" + endYear;
+            console.log(query);
             var search = new models.Search(query);
+            currentPlaylist = new models.Playlist();
+            console.log(search.tracks);
             search.observe(models.EVENT.CHANGE, function() {
                 if(search.tracks.length) {
                     // copy tracks to current playlist
                     $.each(search.tracks, function(index, track){
                         currentPlaylist.add(models.Track.fromURI(track.uri));              // Note: artwork is compiled from first few tracks. if any are local it will fail to generate....
                     });
+                    console.log(currentPlaylist);
                     // player.context = currentPlaylist;
-                    player.track = currentPlaylist.get(0);
-                    player.play(search.tracks[0].uri, currentPlaylist, 0);
+                    // player.track = currentPlaylist.get(0);
+                    player.play(currentPlaylist.get(0), currentPlaylist, 0);
+                    console.log(query);
                 }
             });
             search.appendNext();
@@ -28,12 +35,24 @@
             player = models.player;
             currentPlaylist = new models.Playlist();
             
-            // search and play song
+            // // search and play song
             startMusicByYearRange(1900, 1910);
+
+            // image gallery initialization
+            $('#my-fotorama').fotorama({
+                data: [
+                    {img: 'http://www.rijksmuseum.nl/images/aria/sk/org/sk-c-5.org?aria/maxwidth_288', thumb: 'http://www.rijksmuseum.nl/images/aria/sk/org/sk-c-5.org?aria/maxwidth_288', caption: 'One'},
+                    {img: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-697.org?aria/maxwidth_288', thumb: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-697.org?aria/maxwidth_288'},
+                    {img: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-268.org?aria/maxwidth_288', thumb: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-268.org?aria/maxwidth_288'}
+                ]
+                // fullscreen: true
+                // autoplay: 5000
+                // fullscreenIcon: true
+            });
         });
     </script>
 </head>
 <body>
-    <img src="http://www.rijksmuseum.nl/images/aria/sk/org/sk-c-5.org?aria/maxwidth_288" />
+    <div id="my-fotorama"></div>
 </body>
 </html>
