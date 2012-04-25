@@ -5,11 +5,11 @@
     <title>Rijksmuseum App</title>
     <link href="css/fotorama.css" rel="stylesheet">
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-	<script type="text/javascript" src="coffee-script.js" charset="utf-8"></script>
-	<script type="text/javascript" src="underscore.js" charset="utf-8"></script>
-	<script type="text/javascript" src="backbone.js" charset="utf-8"></script>
-	<script type="text/javascript" src="jath/jath.js" charset="utf-8"></script>
-	<script type="text/javascript" src="jade/jade.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/coffee-script.js"></script>
+	<script type="text/javascript" src="js/underscore.js"></script>
+	<script type="text/javascript" src="js/backbone.js"></script>
+	<script type="text/javascript" src="js/jath.js"></script>
+	<script type="text/javascript" src="js/jade.js"></script>
     <script src="js/fotorama.js"></script>
     <script>
         function startMusicByYearRange(startYear, endYear) {
@@ -56,6 +56,12 @@
             });
         });
     </script>
+    <script type="text/javascript" src="js/index.js"></script>
+	<script id="record" type="text/template">
+.record
+	a(href=model.get('url'))
+		img(src=model.get('url100'))
+	</script>
 </head>
 <body>
     <div id="my-fotorama"></div>

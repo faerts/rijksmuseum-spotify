@@ -1,1 +1,6 @@
 *.DS_Store
+*.swp
+*.coffee
+/nave
+/Makefile
+/.vimproject
