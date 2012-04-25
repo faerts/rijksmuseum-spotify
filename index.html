@@ -7,6 +7,20 @@
     <script>
         $(document).ready(function () {
             sp = getSpotifyApi(1);
+            models = sp.require("sp://import/scripts/api/models");
+            player = models.player;
+            currentPlaylist = new models.Playlist();
+            
+            // search and play song
+            var query = "classical";
+            var search = new models.Search(query);
+            search.localResults = models.LOCALSEARCHRESULTS.PREPEND;
+                search.observe(models.EVENT.CHANGE, function() {
+                    if(search.tracks.length) {
+                        player.play(search.tracks[0].uri);
+                    }
+                });
+                search.appendNext();
         });
     </script>
 </head>
