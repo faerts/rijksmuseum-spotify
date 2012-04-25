@@ -3,8 +3,14 @@
 <head>
     <meta charset="utf-8">
     <title>Rijksmuseum App</title>
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            sp = getSpotifyApi(1);
+        });
+    </script>
 </head>
-<body onload="sp = getSpotifyApi(1);">
-    <h1>Hello, world!</h1>
+<body>
+    <img src="http://www.rijksmuseum.nl/images/aria/sk/org/sk-c-5.org?aria/maxwidth_288" />
 </body>
 </html>
