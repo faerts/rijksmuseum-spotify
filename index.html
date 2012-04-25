@@ -5,6 +5,23 @@
     <title>Rijksmuseum App</title>
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
     <script>
+        function startMusicByYearRange(startYear, endYear) {
+            var query = "year:" + startYear + "-" + endYear;
+            var search = new models.Search(query);
+            search.observe(models.EVENT.CHANGE, function() {
+                if(search.tracks.length) {
+                    // copy tracks to current playlist
+                    $.each(search.tracks, function(index, track){
+                        currentPlaylist.add(models.Track.fromURI(track.uri));              // Note: artwork is compiled from first few tracks. if any are local it will fail to generate....
+                    });
+                    // player.context = currentPlaylist;
+                    player.track = currentPlaylist.get(0);
+                    player.play(search.tracks[0].uri, currentPlaylist, 0);
+                }
+            });
+            search.appendNext();
+        }
+
         $(document).ready(function () {
             sp = getSpotifyApi(1);
             models = sp.require("sp://import/scripts/api/models");
@@ -12,15 +29,7 @@
             currentPlaylist = new models.Playlist();
             
             // search and play song
-            var query = "classical";
-            var search = new models.Search(query);
-            search.localResults = models.LOCALSEARCHRESULTS.PREPEND;
-                search.observe(models.EVENT.CHANGE, function() {
-                    if(search.tracks.length) {
-                        player.play(search.tracks[0].uri);
-                    }
-                });
-                search.appendNext();
+            startMusicByYearRange(1900, 1910);
         });
     </script>
 </head>
