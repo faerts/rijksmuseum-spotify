@@ -5,6 +5,11 @@
     <title>Rijksmuseum App</title>
     <link href="css/fotorama.css" rel="stylesheet">
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="coffee-script.js" charset="utf-8"></script>
+	<script type="text/javascript" src="underscore.js" charset="utf-8"></script>
+	<script type="text/javascript" src="backbone.js" charset="utf-8"></script>
+	<script type="text/javascript" src="jath/jath.js" charset="utf-8"></script>
+	<script type="text/javascript" src="jade/jade.js" charset="utf-8"></script>
     <script src="js/fotorama.js"></script>
     <script>
         function startMusicByYearRange(startYear, endYear) {
@@ -44,10 +49,10 @@
                     {img: 'http://www.rijksmuseum.nl/images/aria/sk/org/sk-c-5.org?aria/maxwidth_288', thumb: 'http://www.rijksmuseum.nl/images/aria/sk/org/sk-c-5.org?aria/maxwidth_288', caption: 'One'},
                     {img: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-697.org?aria/maxwidth_288', thumb: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-697.org?aria/maxwidth_288'},
                     {img: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-268.org?aria/maxwidth_288', thumb: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-268.org?aria/maxwidth_288'}
-                ]
+                ],
                 // fullscreen: true
                 // autoplay: 5000
-                // fullscreenIcon: true
+                fullscreenIcon: true
             });
         });
     </script>
