@@ -56,6 +56,7 @@
 
     Record.schema = [
       '//record', {
+        creator: 'metadata/oai_dc:dc/dc:creator',
         date: 'metadata/oai_dc:dc/dc:date',
         description: 'metadata/oai_dc:dc/dc:description',
         title: 'metadata/oai_dc:dc/dc:title',
@@ -200,47 +201,8 @@
     CoverflowView.name = 'CoverflowView';
 
     function CoverflowView() {
-      this.resetCollection = __bind(this.resetCollection, this);
-
-      this.initialize = __bind(this.initialize, this);
       return CoverflowView.__super__.constructor.apply(this, arguments);
     }
-
-    CoverflowView.prototype.initialize = function() {
-      return this.collection.on('reset', this.resetCollection);
-    };
-
-    CoverflowView.prototype.resetCollection = function() {
-      var model;
-      this.subviews = (function() {
-        var _i, _len, _ref, _results;
-        _ref = this.collection.models;
-        _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          model = _ref[_i];
-          _results.push(new RecordView({
-            model: model
-          }));
-        }
-        return _results;
-      }).call(this);
-      this.collection.filter(function(model) {
-        return model.get('year' > 0);
-      });
-      console.log('resetting coverflos', (function() {
-        var _i, _len, _ref, _results;
-        _ref = this.collection.models;
-        _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          model = _ref[_i];
-          if (model.get('year')) {
-            _results.push(model.get('year'));
-          }
-        }
-        return _results;
-      }).call(this));
-      return this.render();
-    };
 
     return CoverflowView;
 
@@ -298,8 +260,8 @@
         return {
           img: model.get('url'),
           thumb: model.get('url100'),
-          caption: model.get('title'),
-          alt: model.get('title')
+          caption: "" + (model.get('year')) + ": " + (model.get('title')) + " - " + (model.get('creator')),
+          alt: "" + (model.get('year')) + ": " + (model.get('title')) + " - " + (model.get('creator'))
         };
       });
       fotoramaOptions = {
@@ -336,18 +298,33 @@
   window.data = Jath.parse(Record.schema, xmlDoc);
 
   $(function() {
-    var collection;
-    collection = new Records;
+    window.collection = new Records;
     window.fotoramaView = new FotoramaView({
       el: $('#my-fotorama'),
       collection: collection
+      /* TODO:
+      	# collection: categories
+      	# categories: a collection of records
+      */
+
     });
-    fotoramaView.collection.reset(data);
-    window.coverflowView = new CoverflowView({
-      el: $('#my-fotorama'),
-      collection: collection
+    collection.on('reset', function() {
+      var categorySize, i, recordArray;
+      categorySize = 10;
+      recordArray = collection.toArray();
+      window.categories = _((function() {
+        var _i, _ref, _results;
+        _results = [];
+        for (i = _i = 0, _ref = Math.ceil(recordArray.length / 10); 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+          _results.push(recordArray.slice(i * categorySize, i * categorySize + categorySize));
+        }
+        return _results;
+      })());
+      return window.coverflowView = new CoverflowView({
+        collection: categories
+      });
     });
-    return coverflowView.collection.reset(data);
+    return collection.reset(data);
   });
 
 }).call(this);
