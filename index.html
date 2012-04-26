@@ -17,10 +17,32 @@
 	<script type="text/javascript" src="js/backbone.js"></script>
 	<script type="text/javascript" src="js/jath.js"></script>
 	<script type="text/javascript" src="js/jade.js"></script>
+
+    <script type="text/javascript" src="js/composers.js"></script>
+
     <script src="js/fotorama.js"></script>
     <script>
+        function getQueryByYears(startYear, endYear) {
+            artists = [];
+            for (var c in composers) {
+                start = composers[c][0];
+                end = composers[c][1];
+                if ((startYear > start) && (endYear < end)) {
+                    artists.push('artist:"' + c + '"');
+                }
+                if (artists.length > 10) {
+                    break;
+                }
+            }
+            var query = artists.join(' OR ');
+            console.log(query);
+            return query;
+        }
+
         function startMusicByYearRange(startYear, endYear) {
-            var query = "year:" + startYear + "-" + endYear;
+            var query = getQueryByYears(startYear, endYear);
+            // console.log(query);
+            // var query = "year:" + startYear + "-" + endYear;
             console.log(query);
             var search = new models.Search(query);
             currentPlaylist = new models.Playlist();
