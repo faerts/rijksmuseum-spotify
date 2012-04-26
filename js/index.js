@@ -263,19 +263,16 @@
         data: fotoramaData,
         height: 610,
         preload: 5,
-        onShowImg: this.startPlaying,
-        onClick: function() {
-          return console.log('onClick', arguments);
-        },
+        onClick: this.startPlaying,
         click: false
       };
       return this.$el.fotorama(fotoramaOptions);
     };
 
-    FotoramaView.prototype.startPlaying = function(fotoramaItem) {
+    FotoramaView.prototype.startPlaying = function(fotoramaItem, x) {
       var model, year;
       model = this.collection.at(fotoramaItem.index);
-      console.log('onShowImage', fotoramaItem, model);
+      console.log('onShowImage', fotoramaItem, model, x);
       year = model.get('year');
       return startMusicByYearRange(year - 25, year + 25);
     };
