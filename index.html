@@ -23,7 +23,7 @@
     <script src="js/fotorama.js"></script>
     <script>
         function getQueryByYears(startYear, endYear) {
-            artists = [];
+            var artists = [];
             for (var c in composers) {
                 start = composers[c][0];
                 end = composers[c][1];
@@ -39,12 +39,7 @@
             return query;
         }
 
-        function startMusicByYearRange(startYear, endYear) {
-            var query = getQueryByYears(startYear, endYear);
-            // console.log(query);
-            // var query = "year:" + startYear + "-" + endYear;
-            console.log(startYear + '-' + endYear)
-            console.log(query);
+        function searcAndPlay(query) {
             var search = new models.Search(query);
             currentPlaylist = new models.Playlist();
             search.observe(models.EVENT.CHANGE, function() {
@@ -53,14 +48,25 @@
                     $.each(search.tracks, function(index, track){
                         currentPlaylist.add(models.Track.fromURI(track.uri));
                     });
-                    // console.log(currentPlaylist);
-                    // player.context = currentPlaylist;
-                    // player.track = currentPlaylist.get(0);
                     player.play(currentPlaylist.get(0), currentPlaylist, 0);
+                } else {
+                    console.log('search again');
+                    searcAndPlay('classical');
                 }
             });
             search.appendNext();
+            return search;
         }
+
+        function startMusicByYearRange(startYear, endYear) {
+            var query = getQueryByYears(startYear, endYear);
+            // console.log(query);
+            // var query = "year:" + startYear + "-" + endYear;
+            console.log(startYear + '-' + endYear)
+            console.log(query);
+            var search = searcAndPlay(query);
+        }
+
 		window.startMusicByYearRange = startMusicByYearRange
 
         $(document).ready(function () {
