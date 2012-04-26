@@ -131,7 +131,7 @@
 
 .fotorama__caption { font-size: 13px; line-height: 16px; margin: 0.5em 0; white-space: normal; position: relative; }
 
-.fotorama__caption_overlay, .fotorama_fullscreen .fotorama__caption { background-color: #181717; background-color: rgba(24, 23, 23, 0.75); color: white; z-index: 15; margin: 0; position: absolute; left: 0; bottom: 0; padding: 5px 10px; }
+.fotorama__caption_overlay, .fotorama_fullscreen .fotorama__caption { background-color: #181717; background-color: rgba(24, 23, 23, 0.75); color: white; z-index: 15; margin: 0; position: absolute; left: 0; bottom: 0; padding: 5px 10px; font-size: 16pt; line-height: 24px; margin: 0px auto; }
 
 .fotorama__fsi { position: absolute; width: 32px; height: 32px; right: 0; top: 0; opacity: 0; font-size: 0; line-height: 0; z-index: 20; cursor: pointer; -moz-transition-property: opacity; -webkit-transition-property: opacity; -o-transition-property: opacity; transition-property: opacity; -moz-transition-duration: 333ms; -webkit-transition-duration: 333ms; -o-transition-duration: 333ms; transition-duration: 333ms; -moz-transition-timing-function: cubic-bezier(0.1, 0, 0.25, 1); -webkit-transition-timing-function: cubic-bezier(0.1, 0, 0.25, 1); -o-transition-timing-function: cubic-bezier(0.1, 0, 0.25, 1); transition-timing-function: cubic-bezier(0.1, 0, 0.25, 1); }
 .fotorama__fsi .i0 { position: absolute; width: 32px; height: 32px; top: 0; left: 0; background: url("data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="); border: none; }
