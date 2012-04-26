@@ -5,6 +5,13 @@
     <title>Rijksmuseum App</title>
     <link href="css/fotorama.css" rel="stylesheet">
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+
+    <script type="text/javascript" src="js/notifier.js"></script>
+    <script>
+      NotifierjsConfig.defaultTimeOut = 1000;
+      NotifierjsConfig.position = ["top", "right"];
+    </script>
+
     <script src="js/fotorama.js"></script>
     <script>
         function startMusicByYearRange(startYear, endYear) {
@@ -17,7 +24,7 @@
                 if(search.tracks.length) {
                     // copy tracks to current playlist
                     $.each(search.tracks, function(index, track){
-                        currentPlaylist.add(models.Track.fromURI(track.uri));              // Note: artwork is compiled from first few tracks. if any are local it will fail to generate....
+                        currentPlaylist.add(models.Track.fromURI(track.uri));
                     });
                     console.log(currentPlaylist);
                     // player.context = currentPlaylist;
@@ -41,18 +48,38 @@
             // image gallery initialization
             $('#my-fotorama').fotorama({
                 data: [
-                    {img: 'http://www.rijksmuseum.nl/images/aria/sk/org/sk-c-5.org?aria/maxwidth_288', thumb: 'http://www.rijksmuseum.nl/images/aria/sk/org/sk-c-5.org?aria/maxwidth_288', caption: 'One'},
+                    {img: 'http://www.rijksmuseum.nl/images/aria/sk/z/sk-c-5', thumb: 'http://www.rijksmuseum.nl/images/aria/sk/org/sk-c-5.org?aria/maxwidth_288', caption: 'One'},
                     {img: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-697.org?aria/maxwidth_288', thumb: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-697.org?aria/maxwidth_288'},
                     {img: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-268.org?aria/maxwidth_288', thumb: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-268.org?aria/maxwidth_288'}
-                ]
+                ],
+                arrows: true,
+                // width: '100%',
+                height: 610
                 // fullscreen: true
                 // autoplay: 5000
                 // fullscreenIcon: true
             });
+
+            window.NotifierjsConfig.container.css(window.NotifierjsConfig.position[0], "60px");
+
+            player.observe(models.EVENT.CHANGE, function(event) {
+                console.log(event);
+                // $.each(player.track.artists, function(index, artist){
+                //         console.log(artist.name);
+                // });
+                // console.log(event.data.playstate)
+                // event.data.playstate
+                if (event.data.curtrack) {
+                    Notifier.notify(player.track.name, player.track.artists[0].name, './img/music.png', 4000);                
+                }
+            });
         });
     </script>
+
 </head>
 <body>
-    <div id="my-fotorama"></div>
+    <div style="width:100%;text-align: center;"> 
+        <div id="my-fotorama" style="display: inline-block;"></div>
+    </div>
 </body>
 </html>
