@@ -59,6 +59,7 @@
         date: 'metadata/oai_dc:dc/dc:date',
         description: 'metadata/oai_dc:dc/dc:description',
         title: 'metadata/oai_dc:dc/dc:title',
+        type: 'metadata/oai_dc:dc/dc:type',
         url: 'metadata/oai_dc:dc/dc:format'
       }
     ];
@@ -95,19 +96,12 @@
 
     function Records() {
       this.parse = __bind(this.parse, this);
-
-      this.comperator = __bind(this.comperator, this);
       return Records.__super__.constructor.apply(this, arguments);
     }
 
     Records.prototype.model = Record;
 
     Records.prototype.url = 'index.xml';
-
-    Records.prototype.comperator = function(model) {
-      console.log(model.get('title'), model.get('date'), model.get('year'));
-      return model.get('year');
-    };
 
     Records.prototype.parse = function(response) {
       return Jath.parse(Record.schema, response);
@@ -294,23 +288,22 @@
     };
 
     FotoramaView.prototype.render = function() {
-      var fotoramaData, fotoramaOptions, model;
+      var filteredCollection, fotoramaData, fotoramaOptions;
       console.log('rendering', this.$el);
-      fotoramaData = (function() {
-        var _i, _len, _ref, _results;
-        _ref = this.collection.models;
-        _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          model = _ref[_i];
-          _results.push({
-            img: model.get('url'),
-            thumb: model.get('url100'),
-            caption: model.get('title')
-          });
-        }
-        return _results;
-      }).call(this);
+      filteredCollection = _(this.collection.filter(function(model) {
+        var _ref;
+        return (_ref = model.get('type')) === 'schilderij' || _ref === 'prent' || _ref === 'tekening';
+      }));
+      fotoramaData = filteredCollection.shuffle().map(function(model) {
+        return {
+          img: model.get('url'),
+          thumb: model.get('url100'),
+          caption: model.get('title'),
+          alt: model.get('title')
+        };
+      });
       fotoramaOptions = {
+        caption: 'overlay',
         data: fotoramaData,
         height: 610,
         preload: 5,
