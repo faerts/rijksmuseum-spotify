@@ -43,21 +43,20 @@
             var query = getQueryByYears(startYear, endYear);
             // console.log(query);
             // var query = "year:" + startYear + "-" + endYear;
+            console.log(startYear + '-' + endYear)
             console.log(query);
             var search = new models.Search(query);
             currentPlaylist = new models.Playlist();
-            console.log(search.tracks);
             search.observe(models.EVENT.CHANGE, function() {
                 if(search.tracks.length) {
                     // copy tracks to current playlist
                     $.each(search.tracks, function(index, track){
                         currentPlaylist.add(models.Track.fromURI(track.uri));
                     });
-                    console.log(currentPlaylist);
+                    // console.log(currentPlaylist);
                     // player.context = currentPlaylist;
                     // player.track = currentPlaylist.get(0);
                     player.play(currentPlaylist.get(0), currentPlaylist, 0);
-                    console.log(query);
                 }
             });
             search.appendNext();
