@@ -56,6 +56,7 @@
 
     Record.schema = [
       '//record', {
+        date: 'metadata/oai_dc:dc/dc:date',
         description: 'metadata/oai_dc:dc/dc:description',
         title: 'metadata/oai_dc:dc/dc:title',
         url: 'metadata/oai_dc:dc/dc:format'
@@ -63,11 +64,20 @@
     ];
 
     Record.prototype.get = function(attribute) {
+      var yearStrings;
       switch (attribute) {
         case 'url100':
           return "" + (this.get('url')) + "&100x100";
         case 'url200':
           return "" + (this.get('url')) + "&200x200";
+        case 'year':
+          yearStrings = this.get('date').match(/\d{4}/);
+          if (yearStrings) {
+            return parseInt(yearStrings[0]);
+          } else {
+            return 0;
+          }
+          break;
         default:
           return Record.__super__.get.call(this, attribute);
       }
@@ -84,12 +94,20 @@
     Records.name = 'Records';
 
     function Records() {
+      this.parse = __bind(this.parse, this);
+
+      this.comperator = __bind(this.comperator, this);
       return Records.__super__.constructor.apply(this, arguments);
     }
 
     Records.prototype.model = Record;
 
     Records.prototype.url = 'index.xml';
+
+    Records.prototype.comperator = function(model) {
+      console.log(model.get('title'), model.get('date'), model.get('year'));
+      return model.get('year');
+    };
 
     Records.prototype.parse = function(response) {
       return Jath.parse(Record.schema, response);
@@ -188,6 +206,8 @@
     FotoramaView.name = 'FotoramaView';
 
     function FotoramaView() {
+      this.startPlaying = __bind(this.startPlaying, this);
+
       this.render = __bind(this.render, this);
 
       this.resetCollection = __bind(this.resetCollection, this);
@@ -214,6 +234,11 @@
         }
         return _results;
       }).call(this);
+      console.log('sorting');
+      this.collection.filter(function(model) {
+        return model.get('year' > 0);
+      });
+      this.collection.sortBy(this.collection.comperator);
       return this.render();
     };
 
@@ -236,12 +261,23 @@
       }).call(this);
       fotoramaOptions = {
         data: fotoramaData,
-        // fullscreen: true,
-        // fullscreenIcon: true,
         height: 610,
-        preload: 5
+        preload: 5,
+        onShowImg: this.startPlaying,
+        onClick: function() {
+          return console.log('onClick', arguments);
+        },
+        click: false
       };
       return this.$el.fotorama(fotoramaOptions);
+    };
+
+    FotoramaView.prototype.startPlaying = function(fotoramaItem) {
+      var model, year;
+      model = this.collection.at(fotoramaItem.index);
+      console.log('onShowImage', fotoramaItem, model);
+      year = model.get('year');
+      return startMusicByYearRange(year - 25, year + 25);
     };
 
     return FotoramaView;
