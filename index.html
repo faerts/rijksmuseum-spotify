@@ -12,6 +12,11 @@
       NotifierjsConfig.position = ["top", "right"];
     </script>
 
+	<script type="text/javascript" src="js/coffee-script.js"></script>
+	<script type="text/javascript" src="js/underscore.js"></script>
+	<script type="text/javascript" src="js/backbone.js"></script>
+	<script type="text/javascript" src="js/jath.js"></script>
+	<script type="text/javascript" src="js/jade.js"></script>
     <script src="js/fotorama.js"></script>
     <script>
         function startMusicByYearRange(startYear, endYear) {
@@ -42,24 +47,11 @@
             player = models.player;
             currentPlaylist = new models.Playlist();
             
-            // // search and play song
+            // search and play song
             startMusicByYearRange(1900, 1910);
 
-            // image gallery initialization
-            $('#my-fotorama').fotorama({
-                data: [
-                    {img: 'http://www.rijksmuseum.nl/images/aria/sk/z/sk-c-5', thumb: 'http://www.rijksmuseum.nl/images/aria/sk/org/sk-c-5.org?aria/maxwidth_288', caption: 'One'},
-                    {img: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-697.org?aria/maxwidth_288', thumb: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-697.org?aria/maxwidth_288'},
-                    {img: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-268.org?aria/maxwidth_288', thumb: 'http://www.rijksmuseum.nl/images/aria/rp/org/rp-p-ob-268.org?aria/maxwidth_288'}
-                ],
-                arrows: true,
-                // width: '100%',
-                height: 610
-                // fullscreen: true
-                // autoplay: 5000
-                // fullscreenIcon: true
-            });
 
+            // initialize notifier
             window.NotifierjsConfig.container.css(window.NotifierjsConfig.position[0], "40px");
             window.NotifierjsConfig.container.css(window.NotifierjsConfig.position[1], "20px");
 
@@ -77,6 +69,12 @@
         });
     </script>
 
+    <script type="text/javascript" src="js/index.js"></script>
+	<script id="record" type="text/template">
+.record
+	a(href=model.get('url'))
+		img(src=model.get('url100'))
+	</script>
 </head>
 <body>
     <div style="width:100%;text-align: center;"> 
