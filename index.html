@@ -62,11 +62,12 @@
             });
             search.appendNext();
         }
+		window.startMusicByYearRange = startMusicByYearRange
 
         $(document).ready(function () {
             sp = getSpotifyApi(1);
             models = sp.require("sp://import/scripts/api/models");
-            player = models.player;
+            window.player = models.player;
             currentPlaylist = new models.Playlist();
             
             // search and play song
