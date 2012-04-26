@@ -260,8 +260,8 @@
         return {
           img: model.get('url'),
           thumb: model.get('url100'),
-          caption: "" + (model.get('year')) + ": " + (model.get('title')) + " - " + (model.get('creator')),
-          alt: "" + (model.get('year')) + ": " + (model.get('title')) + " - " + (model.get('creator'))
+          caption: "" + (model.get('year')) + " - " + (model.get('title')) + " - " + (model.get('creator')),
+          alt: "" + (model.get('year')) + " - " + (model.get('title')) + " - " + (model.get('creator'))
         };
       });
       fotoramaOptions = {
@@ -321,6 +321,7 @@
         return _results;
       })());
       return window.coverflowView = new CoverflowView({
+        el: $('#my-coverflow'),
         collection: categories
       });
     });
